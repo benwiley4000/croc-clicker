@@ -121,11 +121,12 @@ $(function() {
 				levelUnlocked++;
 			}
 			clicksToUnlock = ceil - totalClicks;
-			if(levelUnlocked > 5) levelUnlocked = 5;
+			if(levelUnlocked > data.length) {levelUnlocked = data.length;
+			}
 
 			// determine whether there are still crocs to be unlocked
 			var allUnlocked = false;
-			if(data[data.length - 1].locked === false) {
+			if(levelUnlocked === data.length) {
 				allUnlocked = true;
 			}
 
