@@ -40,7 +40,6 @@ $(function() {
 						name: obj.name,
 						url: "images/" + obj.url,
 						source: obj.source,
-						// locked: true,
 						clicks: 0
 					});
 				};
