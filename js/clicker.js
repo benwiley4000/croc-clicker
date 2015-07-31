@@ -243,17 +243,16 @@ $(function() {
 			$('#curr-count').text(obj.currClicks);
 			$('#total-count').text(obj.totalClicks);
 			if(!obj.allUnlocked) {
+				$('#countdown').show();
 				$('#unlock-count').text(obj.clicksToUnlock);
 			} else {
-				// removes countdown if there is nothing to count down to
-				$('#countdown').remove();
+				// hides countdown if there is nothing to count down to
+				$('#countdown').hide();
 			}
 			if(obj.source) {
 				$('#source').attr("href", obj.source);
-				// $('#custom-mssg').hide();
 				$('#source').show();
 			} else {
-				// $('#custom-mssg').show();
 				$('#source').hide();
 			}
 
