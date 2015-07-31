@@ -293,7 +293,6 @@ $(function() {
 				thumb.click((function(index) {
 					return function() {
 						octopus.changeCroc(index);
-						view.selectAudio.play();
 					};
 				})(i));
 
