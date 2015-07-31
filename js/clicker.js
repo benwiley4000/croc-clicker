@@ -47,6 +47,12 @@ $(function() {
 				localStorage.crocData = JSON.stringify(data);
 			}
 		},
+		reset: function() {
+			// clears storage and re-initializes
+
+			localStorage.clear();
+			model.init();
+		},
 		getAllCrocs: function() {
 			// returns an array full of croc data
 			return JSON.parse(localStorage.crocData);
@@ -171,12 +177,11 @@ $(function() {
 			view.render();
 		},
 		reset: function () {
-			// clears storage and resets game (without repeating listeners)
+			// resets model and view
 
-			localStorage.clear();
-			model.init();
+			model.reset();
 			this.currIndex = 0;
-			view.render();
+			view.reset();
 		},
 		init: function() {
 			// initializes model and view, sets current croc to first
@@ -188,9 +193,14 @@ $(function() {
 	};
 
 	var view = {
+		selectAudio: new Audio('audio/crocodile.ogg'),
 		init: function() {
 			// initializes the view
 
+			// initializes highest level shown yet at 0. each time a new level is shown for the first time, the audio clip plays.
+			this.levelRecord = 0;
+
+			// render view
 			view.render();
 
 			// create listener for croc image to increase count on click
@@ -203,9 +213,21 @@ $(function() {
 				octopus.reset();
 			});
 		},
+		reset: function() {
+			// resets level record and renders, without repeating listeners in init method
+
+			this.levelRecord = 0;
+			view.render();
+		},
 		render: function() {
 
 			var obj = octopus.getData();
+
+			// plays new croc audio if a new one has appeared
+			if(obj.levelUnlocked > this.levelRecord) {
+				view.selectAudio.play();
+				this.levelRecord = obj.levelUnlocked;
+			}
 
 			/* Main Croc render for Croc and its associated data */
 
@@ -271,6 +293,7 @@ $(function() {
 				thumb.click((function(index) {
 					return function() {
 						octopus.changeCroc(index);
+						view.selectAudio.play();
 					};
 				})(i));
 
