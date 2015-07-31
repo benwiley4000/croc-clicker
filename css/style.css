@@ -1,0 +1,96 @@
+body {
+	font-family: sans-serif;
+}
+
+a {
+	text-decoration: none;
+	color: #556B2F;
+	font-weight: bold;
+}
+
+#content {
+	margin: 25px;
+	float: left;
+}
+
+#croc-selector {
+	margin-top: 16px;
+	float: left;
+	margin-right: 20px;
+}
+
+#current {
+	display: inline-block;
+}
+
+#croc {
+	max-height: 400px;
+}
+
+#source {
+	font-size: 14px;
+}
+
+.thumb {
+	width: 100px;
+	height: 100px;
+	background-size: cover;
+	margin-bottom: 5px;
+	position: relative;
+}
+
+.thumb > .overlay {
+	display: none;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	color: #fff;
+	background-color: #000;
+	opacity: 0.5;
+	text-align: right;
+	font-size: 24px;
+	cursor: pointer;
+}
+
+.thumb:hover > .overlay {
+	display: initial;
+}
+
+.thumb > .overlay > p {
+	margin-top: 0;
+	margin-bottom: 0;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+#next {
+	display: initial;
+	color: #000;
+	background-color: #fff;
+	opacity: 1.0;
+	padding-top: 10px;
+	cursor: initial;
+}
+
+.counter {
+	font-weight: bold;
+}
+
+#admin-panel {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+
+.form-row {
+	padding-bottom: .3em;
+}
+
+#custom-mssg {
+	font-weight: bold;
+}
+
+#reset {
+	font-size: 14px;
+	cursor: pointer;
+}

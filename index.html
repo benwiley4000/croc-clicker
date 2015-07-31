@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+	<title>Crocodile Clicker</title>
+	<link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div id="content">
+		<div id="croc-selector"></div>
+		<div id="current">
+			<h1 id="name"></h1>
+			<div id="croc-box"></div>
+			<div id="stats">
+				<span>Clicks on this croc: </span><span id="curr-count" class="counter">0</span>
+				<span> | </span>
+				<span>Total clicks: </span><span id="total-count" class="counter">0</span>
+				<span id="countdown">
+					<span> | </span>
+					<span>Clicks until next croc unlock: </span><span id="unlock-count" class="counter">0</span>
+				</span>
+			</div>
+			<div><a id="source" href="#" target="_blank">[image source]</a></div>
+		</div>
+	</div>
+	<div id="admin-panel">
+		<div id="reset">[reset game]</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="js/clicker.js"></script>
+</body>
+</html>
