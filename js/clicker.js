@@ -83,36 +83,17 @@ $(function() {
 			return model.getAllCrocs();
 		},
 		getData: function() {
-			// fetch pieces of data necessary for croc rendering
+			// fetches pieces of data necessary for croc rendering
 
 			var data = model.getAllCrocs();
-			var currentCroc = data[this.currIndex];
 
-			// get name of current croc
-			var name = currentCroc.name;
-
-			// get url of current croc
-			var url = currentCroc.url;
-
-			// get source url for current croc
-			var source;
-			if(!currentCroc.hideSource) {
-				source = currentCroc.source;
-			} // otherwise goes null
-
-			// get level of current croc
-			var currLevel = this.currIndex + 1;
-
-			// get clicks for current croc
-			var currClicks = currentCroc.clicks;
-
-			// calculate total clicks among all crocs
+			// calculates total clicks among all crocs
 			var totalClicks = 0;
 			for(var i = 0; i < data.length; i++) {
 				totalClicks += data[i].clicks;
 			}
 
-			// calculate clicks needed to unlock next croc, and current level
+			// calculates clicks needed to unlock next croc, and current level
 			var ceil = octopus.levelBase;
 			var levelUnlocked = 1;
 			while(ceil <= totalClicks) {
@@ -123,11 +104,39 @@ $(function() {
 			if(levelUnlocked > data.length) {levelUnlocked = data.length;
 			}
 
-			// determine whether there are still crocs to be unlocked
+			// determines whether there are still crocs to be unlocked
 			var allUnlocked = false;
 			if(levelUnlocked === data.length) {
 				allUnlocked = true;
 			}
+
+			// determines whether a new level has been unlocked, and if so, moves currIndex
+			var newLevel = false;
+			if(levelUnlocked > this.levelRecord) {
+				newLevel = true;
+				this.levelRecord = levelUnlocked;
+				this.currIndex = levelUnlocked - 1;
+			}
+
+			var currentCroc = data[this.currIndex];
+
+			// gets name of current croc
+			var name = currentCroc.name;
+
+			// gets url of current croc
+			var url = currentCroc.url;
+
+			// gets source url for current croc
+			var source;
+			if(!currentCroc.hideSource) {
+				source = currentCroc.source;
+			} // otherwise goes null
+
+			// gets level of current croc
+			var currLevel = this.currIndex + 1;
+
+			// gets clicks for current croc
+			var currClicks = currentCroc.clicks;
 
 			var obj = {
 				// full data array, info for current croc, and info for whole game
@@ -140,7 +149,8 @@ $(function() {
 				"totalClicks": totalClicks,
 				"clicksToUnlock": clicksToUnlock,
 				"levelUnlocked": levelUnlocked,
-				"allUnlocked": allUnlocked
+				"allUnlocked": allUnlocked,
+				"newLevel": newLevel
 			};
 
 			return obj;
@@ -181,13 +191,15 @@ $(function() {
 
 			model.reset();
 			this.currIndex = 0;
-			view.reset();
+			this.levelRecord = 0;
+			view.render();
 		},
 		init: function() {
-			// initializes model and view, sets current croc to first
+			// initializes model and view, sets current croc to first and highest reached to 0
 
 			model.init();
 			this.currIndex = 0;
+			this.levelRecord = 0;
 			view.init();
 		}
 	};
@@ -196,9 +208,6 @@ $(function() {
 		selectAudio: new Audio('audio/crocodile.ogg'),
 		init: function() {
 			// initializes the view
-
-			// initializes highest level shown yet at 0. each time a new level is shown for the first time, the audio clip plays.
-			this.levelRecord = 0;
 
 			// render view
 			view.render();
@@ -213,20 +222,13 @@ $(function() {
 				octopus.reset();
 			});
 		},
-		reset: function() {
-			// resets level record and renders, without repeating listeners in init method
-
-			this.levelRecord = 0;
-			view.render();
-		},
 		render: function() {
 
 			var obj = octopus.getData();
 
 			// plays new croc audio if a new one has appeared
-			if(obj.levelUnlocked > this.levelRecord) {
+			if(obj.newLevel) {
 				view.selectAudio.play();
-				this.levelRecord = obj.levelUnlocked;
 			}
 
 			/* Main Croc render for Croc and its associated data */
